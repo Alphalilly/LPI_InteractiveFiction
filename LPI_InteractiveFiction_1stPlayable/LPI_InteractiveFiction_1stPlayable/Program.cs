@@ -170,6 +170,8 @@ namespace LPI_InteractiveFiction_1stPlayable
     //forget about this Clusterfuck rn
     struct StoryA //should I make this a class???
     {
+        //MAKE ROOM METHODS STUPID lel
+
         //here's my idea:
 
         //instead of page 1 page 2
