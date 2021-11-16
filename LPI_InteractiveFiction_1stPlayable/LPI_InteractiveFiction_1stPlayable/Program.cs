@@ -55,43 +55,131 @@ namespace LPI_InteractiveFiction_1stPlayable
             - main menu (required in FINAL project)
      */
 
-
-    //here's my idea:
-
-    //instead of page 1 page 2
-    //have it so its room 1 room 2. (or page inside of room
-    //room objects? each with its own array of strings. that contain the story that happens in that room. and lists of items that can be intracted with to progress through the story[]
-    //and each room contains metaphorical items you could intract with. and the text discribes it.
-    //you can ignore certain items, or choose all of it.
-
-    //story
-
     class Program
     {
         static void Main()
         {
-            //test
+            Story.test();
+        }
+    }
 
+    public class Story
+    {
+        public static void test()
+        {
             //STORY ARRAY
-            string[,] story = new string[,]
+
+            string[,] teststory = new string[,]
             {
-                //title is at point 0 in the array
-                //wait, so it needs to be the same length throughout??  
-                {"insert title here"," "," "," "," "},  //page 0
-                {"Plot","ChoiceA","ChoiceB","2","3"},   //page 1
-                {"Plot","ChoiceA","ChoiceB","4","5"},   //page 2
+                {   //page 0
+                    "insert title here", //paragraph 0
+                    ";", //paragraph 1
+                    ";", //paragraph 2
+                    ";", //paragraph 3
+                    ";" //paragraph 4
+                },
+                {   //page 1
+                    "Plot",
+                    ";ChoiceA",
+                    ";ChoiceB",
+                    ";2",
+                    ";3"
+                },
+                {   //page 2
+                    "Plot",
+                    ";ChoiceA",
+                    ";ChoiceB",
+                    ";4",
+                    ";5"
+                },
+                {   //page 3
+                    "Plot",
+                    ";ChoiceA",
+                    ";ChoiceB",
+                    ";6",
+                    ";7"
+                },
+                {   //page 4
+                    "end4",
+                    ";",
+                    ";",
+                    ";",
+                    ";"
+                },
+                {   //page 5
+                    "end5",
+                    ";",
+                    ";",
+                    ";",
+                    ";"
+                },
+                {   //page 6
+                    "end6",
+                    ";",
+                    ";",
+                    ";",
+                    ";"
+                },
+                {   //page 7
+                    "end7",
+                    ";",
+                    ";",
+                    ";",
+                    ";"
+                },
             };
 
-            //PLAYER INPUT
+
+            Console.WriteLine(teststory[6, 0]);
+            Console.ReadKey(true);
+
+            //PRINTING STORY  
+
+
+            while (true) //in a loop (not this one in particular but you get the point
+            {
+                //since its a multidimentional array cant I just tell it to point to a dimention in the array to get a page?
+                //like page 0 is dimention 0 in array
+
+                //string parcing
+
+                int page = 0; //the value will represent the pointer on the Y axis??? (fuck if I know what im talking about)
+                string[] TextSplit = teststory[page, 0].Split(';'); //dont use the 0 here
+
+                //now there is split text 0-4
+
+                //string Paragraph = TextSplit[0];
+                //string ChoiceA = TextSplit[1];
+                //string ChoiceB = TextSplit[2];
+                //string PageA = int.Parse(TextSplit[3]);
+                //string PageB = int.Parse(TextSplit[4]);
+
+
+                //PLAYER INPUT (does it have to be in a loop??)
+
+                //getting key pressed vs getting key press info. ConsoleKey vs ConsoleKeyInfo
+                ConsoleKey Keypressed = Console.ReadKey(true).Key;
+
+            }
+
 
         }
     }
 
-    struct Story //should I make this a class???
+
+    //forget about this Clusterfuck rn
+    struct StoryA //should I make this a class???
     {
+        //here's my idea:
+
+        //instead of page 1 page 2
+        //have it so its room 1 room 2. (or page inside of room
+        //room objects? each with its own array of strings. that contain the story that happens in that room. and lists of items that can be intracted with to progress through the story[]
+        //and each room contains metaphorical items you could intract with. and the text discribes it.
+        //you can ignore certain items, or choose all of it.
+
+
         // The begining of the story wont be in a "room" and wont have any choices
-
-
         class RoomExample
         {
             string[,] Pages = new string[,]
@@ -130,5 +218,4 @@ namespace LPI_InteractiveFiction_1stPlayable
             //that means ill need to have an original to create a new copy from
         }
     }
-    
 }
