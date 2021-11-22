@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions; //Regex https://regex101.com/ should I use this??
 
 namespace LPI_InteractiveFiction_1stPlayable
 {
@@ -59,12 +60,67 @@ namespace LPI_InteractiveFiction_1stPlayable
     {
         static void Main()
         {
-            Story.test();
+            Story.anothertest();
         }
     }
 
     public class Story
     {
+        public static void anothertest()
+        {
+            //The "Idk what im doing" Diagram:
+
+            //story (class)
+            // > room (method)
+            //  > page (array)
+            //   > paragraph (variable)
+
+            // wait I think this is wrong ^^^ REEEEEEEEEEEEEEE
+
+            string[,] story = new string[,]
+            {
+                {   //page 0 - this techically isnt a page
+                    "This is a title screen at page 0",
+                    ";",
+                    ";",
+                    ";",
+                    ";" 
+                },
+                {   //page 1
+                    "Your mom is ded", //paragraph 0
+                    ";oh no", //paragraph 1
+                    ";eh whatever", //paragraph 2
+                    ";2", //paragraph 3
+                    ";3" //paragraph 4
+                },
+                {   //page 2
+                    "thats sad",
+                    ";",
+                    ";",
+                    ";",
+                    ";"
+                },
+                {   //page 3
+                    "lol XD",
+                    ";",
+                    ";",
+                    ";",
+                    ";"
+                },
+            };
+
+            int pageNum = 1; //placeholder number (this would be the y)
+            int paragraphNum = 1; //placeholder number (this would be the x)
+       
+            List<string> sortedStory = new List<string>(story[pageNum, paragraphNum].Split(';')); //wait... this works?!
+
+            foreach (string paragraph in sortedStory)
+            {
+                Console.WriteLine(paragraph);
+            }
+            Console.ReadKey(true);
+        }
+
         public static void test()
         {
             //STORY ARRAY
@@ -166,7 +222,6 @@ namespace LPI_InteractiveFiction_1stPlayable
         }
     }
 
-
     //forget about this Clusterfuck rn
     struct StoryA //should I make this a class???
     {
@@ -219,5 +274,31 @@ namespace LPI_InteractiveFiction_1stPlayable
             //create a fuction that can create new rooms with Lists and string[]
             //that means ill need to have an original to create a new copy from
         }
+
+        // idea for a menu
+        /* //Main Menu
+         * "Title"
+         * 
+         * > New Game
+         *      "select a new story"
+         *      > story1
+         *      > story2
+         *      > story3
+         *      > + Add story from file
+         *      > < back
+         *      
+         * > Load
+         *      "Select a prevous save"
+         *      > story1
+         *      > story2
+         *      > story3
+         *      > - Delete a Save
+         *      > < back
+         *      
+         * > Quit
+         *      "Are you sure"
+         *      > Y/N
+         * 
+         */
     }
 }
