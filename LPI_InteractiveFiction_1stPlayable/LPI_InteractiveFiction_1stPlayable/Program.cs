@@ -60,31 +60,29 @@ namespace LPI_InteractiveFiction_1stPlayable
     {
         static void Main()
         {
-            Story.anothertest();
+            //Story.anothertest();
         }
     }
 
     public class Story
     {
-        public static void anothertest()
-        {
-            //The "Idk what im doing" Diagram:
-
-            //story (class)
-            // > room (method)
-            //  > page (array)
-            //   > paragraph (variable)
-
-            // wait I think this is wrong ^^^ REEEEEEEEEEEEEEE
-
-            string[,] story = new string[,]
+        static string[,] story = new string[,]
             {
+                //The "Idk what im doing" Diagram:
+
+                //story (class)
+                // > room (method)
+                //  > page (array)
+                //   > paragraph (variable)
+
+                // wait I think this is wrong ^^^ REEEEEEEEEEEEEEE
+
                 {   //page 0 - this techically isnt a page
                     "This is a title screen at page 0",
                     ";",
                     ";",
                     ";",
-                    ";" 
+                    ";"
                 },
                 {   //page 1
                     "Your mom is ded", //paragraph 0
@@ -109,9 +107,8 @@ namespace LPI_InteractiveFiction_1stPlayable
                 },
             };
 
-            int pageNum = 1; //placeholder number (this would be the y)
-            int paragraphNum = 1; //placeholder number (this would be the x)
-       
+        public static void anothertest(int pageNum, int paragraphNum) // y, x
+        {
             List<string> sortedStory = new List<string>(story[pageNum, paragraphNum].Split(';')); //wait... this works?!
 
             foreach (string paragraph in sortedStory)
