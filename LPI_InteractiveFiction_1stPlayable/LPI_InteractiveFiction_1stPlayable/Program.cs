@@ -82,9 +82,11 @@ namespace LPI_InteractiveFiction_1stPlayable
         public static string[] story = new string[]
         {
                 //Title Page | page:0
-                "NSCC Game Development - Logic and Programming 1 " +
+                "-----------------."+
+                ";-----------------."+
                 ";An interesting Dinner " +
                 ";-----------------.",
+                ";-----------------."+
                 //-----------------------------------------------------------------------------------------------
                 //1st | page:1
                 " *Your trying to decide to eat Stake or Sushi tonight, both seem appealing but you just cant decide!" +
