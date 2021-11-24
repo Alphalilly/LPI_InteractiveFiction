@@ -59,7 +59,7 @@ namespace LPI_InteractiveFiction_1stPlayable
     {
         static void Main()
         {
-            Story.ParseStory(Story.story);
+            
 
             Console.ReadKey(true);
 
@@ -185,7 +185,7 @@ namespace LPI_InteractiveFiction_1stPlayable
 
         static bool IsActive = true;
 
-        public static PageNode ParseStory(string[] storyData)
+        static PageNode ParseStory(string[] storyData)
         {
             Dictionary<int, PageNode> pages = new Dictionary<int, PageNode>();
 
@@ -213,6 +213,18 @@ namespace LPI_InteractiveFiction_1stPlayable
             }
 
             return pages[0];
+        }
+
+        public static void printStory()
+        {
+            ParseStory(story);
+
+
+        }
+
+        public static void input()
+        {
+
         }
 
         //public static void printstory()
