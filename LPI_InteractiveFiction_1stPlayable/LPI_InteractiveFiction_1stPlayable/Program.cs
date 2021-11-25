@@ -59,8 +59,6 @@ namespace LPI_InteractiveFiction_1stPlayable
     {
         static void Main()
         {
-            
-
             Console.ReadKey(true);
 
         }
@@ -82,11 +80,13 @@ namespace LPI_InteractiveFiction_1stPlayable
         public static string[] story = new string[]
         {
                 //Title Page | page:0
-                "-----------------."+
-                ";-----------------."+
-                ";An interesting Dinner " +
-                ";-----------------.",
-                ";-----------------."+
+                "----------------------------------.\n"+
+                "An interesting Dinner \n" +
+                "----------------------------------.\n"+ 
+                ";continue" +
+                ";" +
+                ";1" +
+                ";",
                 //-----------------------------------------------------------------------------------------------
                 //1st | page:1
                 " *Your trying to decide to eat Stake or Sushi tonight, both seem appealing but you just cant decide!" +
@@ -187,10 +187,10 @@ namespace LPI_InteractiveFiction_1stPlayable
 
         static bool IsActive = true;
 
-        static PageNode ParseStory(string[] storyData)
-        {
-            Dictionary<int, PageNode> pages = new Dictionary<int, PageNode>();
+        Dictionary<int, PageNode> pages = new Dictionary<int, PageNode>();
 
+        public PageNode ParseStory(string[] storyData)
+        {
             for (int i = 0; i < storyData.Length; i++)
             {
                 string pageSource = storyData[i];
@@ -217,11 +217,14 @@ namespace LPI_InteractiveFiction_1stPlayable
             return pages[0];
         }
 
-        public static void printStory()
+        public void printStory()
         {
             ParseStory(story);
 
-
+            foreach ( page in pages)
+            {
+                Console.WriteLine(page);
+            }
         }
 
         public static void input()
