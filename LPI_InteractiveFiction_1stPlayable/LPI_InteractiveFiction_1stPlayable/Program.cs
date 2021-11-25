@@ -59,6 +59,8 @@ namespace LPI_InteractiveFiction_1stPlayable
     {
         static void Main()
         {
+            Story.printStory();
+
             Console.ReadKey(true);
 
         }
@@ -83,7 +85,7 @@ namespace LPI_InteractiveFiction_1stPlayable
                 "----------------------------------.\n"+
                 "An interesting Dinner \n" +
                 "----------------------------------.\n"+ 
-                ";continue" +
+                ";" +
                 ";" +
                 ";1" +
                 ";",
@@ -185,11 +187,9 @@ namespace LPI_InteractiveFiction_1stPlayable
                 ";",
         };
 
-        static bool IsActive = true;
+        static Dictionary<int, PageNode> pages = new Dictionary<int, PageNode>(); //if I want to have mutiple stories in the same project, then nothing should be static.
 
-        Dictionary<int, PageNode> pages = new Dictionary<int, PageNode>();
-
-        public PageNode ParseStory(string[] storyData)
+        public static PageNode ParseStory(string[] storyData)
         {
             for (int i = 0; i < storyData.Length; i++)
             {
@@ -210,20 +210,57 @@ namespace LPI_InteractiveFiction_1stPlayable
                 string[] storySplit = pageSource.Split(';');
                 PageNode pageNode = pages[j];
 
-                pageNode.choiceA = pages[int.Parse(storySplit[3])];
-                pageNode.choiceB = pages[int.Parse(storySplit[4])];
+                //these ignore if there isnt any numbers in the string[] to parse
+                try
+                {
+                    int A = int.Parse(storySplit[3]);
+                    pageNode.choiceA = pages[A];
+                }
+                catch (FormatException)
+                {
+                    pageNode.choiceA = null;
+                }
+
+                try
+                {
+                    int B = int.Parse(storySplit[4]);
+                    pageNode.choiceB = pages[B];
+                }
+                catch (FormatException)
+                {
+                    pageNode.choiceB = null;
+                }
             }
 
             return pages[0];
         }
 
-        public void printStory()
+        public static void printStory()
         {
             ParseStory(story);
 
-            foreach ( page in pages)
+            foreach (var page in pages)
             {
-                Console.WriteLine(page);
+                Console.WriteLine(page.Value.plotText);
+                Console.WriteLine();
+
+                //this ignores choice in page 0 (title) entirely. 
+                if (page.Key == 0)
+                {
+                    continue;
+                }
+
+                if (page.Value.choiceA != null)
+                {
+                    Console.WriteLine("A:" + page.Value.choiceTextA);
+                }
+
+                if (page.Value.choiceB != null)
+                {
+                    Console.WriteLine("B:" + page.Value.choiceTextB);
+                }
+
+                Console.WriteLine("-------------------------------------------------------");
             }
         }
 
