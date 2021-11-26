@@ -78,6 +78,11 @@ namespace LPI_InteractiveFiction_1stPlayable
         public PageNode choiceB;
     }
 
+    public class StoryCopy
+    {
+        
+    }
+
     public class Story
     {
         //using this old story as a placeholder
@@ -189,7 +194,7 @@ namespace LPI_InteractiveFiction_1stPlayable
                 ";",
         };
 
-        static Dictionary<int, PageNode> pages = new Dictionary<int, PageNode>(); //if I want to have mutiple stories in the same project, then nothing should be static.
+        static Dictionary<int, PageNode> pages = new Dictionary<int, PageNode>(); //if I want to have mutiple stories in the same project, then nothing should be static
 
         public static PageNode ParseStory(string[] storyData)
         {
@@ -232,6 +237,9 @@ namespace LPI_InteractiveFiction_1stPlayable
             ParseStory(story);
 
             ConsoleKey keyPress;
+            int currentPage = 0;
+            int copyPageA = 0;
+            int copyPageB = 0;
 
             foreach (var page in pages)
             {
@@ -248,22 +256,18 @@ namespace LPI_InteractiveFiction_1stPlayable
 
                 Console.WriteLine("-------------------------------------------------------");
 
-                keyPress = Console.ReadKey(true).Key;
-
                 Console.WriteLine("> Awaiting Choice...");
 
-                //for this to work, id need to make a copy of the dictionary? because the way iom doing it keeps tryng to modify the key whenever i wanna turn the page. 
-
-                int pageA = page.key.choiceA; //reeee i wanna make a new one aaaaaaaa
+                keyPress = Console.ReadKey(true).Key;
 
                 if (keyPress == ConsoleKey.A)
                 {
-                    page.key.choiceA
+                    //page.key.choiceA
                 }
 
                 if (keyPress == ConsoleKey.B)
                 {
-                    page.key.choiceB
+
                 }
 
                 //then await input
