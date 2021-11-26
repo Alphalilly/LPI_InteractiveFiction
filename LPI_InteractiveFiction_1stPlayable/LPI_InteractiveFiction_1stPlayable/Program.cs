@@ -74,7 +74,7 @@ namespace LPI_InteractiveFiction_1stPlayable
         public string choiceTextA;
         public string choiceTextB;
 
-        public PageNode currentPage;
+        public bool isTitle;
 
         public PageNode choiceA;
         public PageNode choiceB;
@@ -207,6 +207,15 @@ namespace LPI_InteractiveFiction_1stPlayable
                 PageNode pageNode = new PageNode();
                 string[] storySplit = pageSource.Split(';');
 
+                if (i == 0)
+                {
+                    pageNode.isTitle = true;
+                }
+                else
+                {
+                    pageNode.isTitle = false;
+                }
+
                 pageNode.plotText = storySplit[0];
                 pageNode.choiceTextA = storySplit[1];
                 pageNode.choiceTextB = storySplit[2];
@@ -222,8 +231,11 @@ namespace LPI_InteractiveFiction_1stPlayable
                 PageNode pageNode = pages[j];
 
                 //these ignore if there isnt any numbers in the string[] to parse
-                try {int A = int.Parse(storySplit[3]);
-                     pageNode.choiceA = pages[A];}
+                try 
+                {
+                    int A = int.Parse(storySplit[3]);
+                    pageNode.choiceA = pages[A];
+                }
                 catch (FormatException) {pageNode.choiceA = null;}
 
                 try{int B = int.Parse(storySplit[4]);
@@ -239,22 +251,20 @@ namespace LPI_InteractiveFiction_1stPlayable
             ParseStory(story);
 
             ConsoleKey keyPress;
-            int currentPage = 0;
-            int copyPageA = 0;
-            int copyPageB = 0;
 
-            foreach (var page in pages)
+            for (int i = 0; i < pages.Count;)
             {
-                Console.WriteLine(page.Value.plotText);
+                keyPress = ConsoleKey.Tab;
+
+                Console.WriteLine(pages[i].plotText);
                 Console.WriteLine();
 
-                //this ignores choice in page 0 (title) entirely. 
-                if (page.Key == 0) {continue;}
+                if (pages[i].isTitle == true) { i++; continue; }
 
-                if (page.Value.choiceA != null)
-                    Console.WriteLine("A:" + page.Value.choiceTextA);
-                if (page.Value.choiceB != null)
-                    Console.WriteLine("B:" + page.Value.choiceTextB);
+                if (pages[i].choiceTextA != null)
+                    Console.WriteLine("A:" + pages[i].choiceTextA);
+                if (pages[i].choiceTextB != null)
+                    Console.WriteLine("B:" + pages[i].choiceTextB);
 
                 Console.WriteLine("-------------------------------------------------------");
 
@@ -264,15 +274,27 @@ namespace LPI_InteractiveFiction_1stPlayable
 
                 if (keyPress == ConsoleKey.A)
                 {
-                    //page.key.choiceA
+                    for (int j = 0; j < pages.Count; j++)
+                    {
+                        if (pages[j] == pages[i].choiceA)
+                        {
+                            i = j;
+                            break;
+                        }
+                    }
                 }
 
                 if (keyPress == ConsoleKey.B)
                 {
-
+                    for (int j = 0; j < pages.Count; j++)
+                    {
+                        if (pages[j] == pages[i].choiceB)
+                        {
+                            i = j;
+                            break;
+                        }
+                    }
                 }
-
-                //then await input
             }
         }
 
