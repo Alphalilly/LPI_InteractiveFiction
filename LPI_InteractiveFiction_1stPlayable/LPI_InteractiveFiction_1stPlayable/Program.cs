@@ -101,40 +101,40 @@ namespace LPI_InteractiveFiction_1stPlayable
                 ";2" +
                 ";3", 
                 //A: stake | page:2
-                "Eh I Think I'll go with the Stake, basic and good. Though Should I eat out? or buy what I need and make it myself?" +
+                "Eh I Think I'll go with the Stake, basic and good. \nThough Should I eat out? or buy what I need and make it myself?" +
                 ";I'll eat out. I was thinking about trying stake from this new place anyway." +
                 ";I think I'll make the Stake, kinda wanted to try out this new recipe for a while." +
                 ";4" +
                 ";5", 
                 //-----------------------------------------------------------------------------------------------
                 //B: sushi | page:3
-                "I'll choose Sushi! I'm feeling experimental today. There's a nearby sushi place that's pretty close, or should I ask an old friend I know and try out his Sushi?" +
+                "I'll choose Sushi! I'm feeling experimental today. \nThere's a nearby sushi place that's pretty close, or should I ask an old friend I know and try out his Sushi?" +
                 ";I'll go to that Sushi place, The sweet old lady there always likes to give me extra mints before I leave." +
                 ";Eh. I'll give an old freind a visit. Maybe catch up and finally try his Sushi recipe." +
                 ";6" +
                 ";7", 
                 //-----------------------------------------------------------------------------------------------
                 // stake / A: out | page:4
-                "I'm gonna eat out, too lazy to cook it myself. I was thinking about hanging out with the boys, haven't talked to them much lately. But I'm not sure." +
+                "I'm gonna eat out, too lazy to cook it myself. \nI was thinking about hanging out with the boys, haven't talked to them much lately. \nBut I'm not sure." +
                 ";Eh, they can be a bit noisy, I might just head to the stake house on my own." +
                 ";Aaah Ill invite em all, we could have a Stake party! " +
                 ";8" +
                 ";9", 
                 // stake / B: cook | page:5
-                "It wouldn't hurt to try my hand at cooking! I just gotta get the ingredients. should I eat alone, or invite my friends over?" +
+                "It wouldn't hurt to try my hand at cooking! I just gotta get the ingredients. \nshould I eat alone, or invite my friends over?" +
                 ";Nah, I think I'm gonna eat alone, kinda feel like having time to myself." +
                 ";yeah I dont mind having some company, and crack open a cold one with the boys after lunch." +
                 ";10" +
                 ";11",
                 //-----------------------------------------------------------------------------------------------
                 // sushi / A: out | page:6
-                "The Sushi place sounds like a good idea, been a while since I last been there. Now that I think about it, I could go alone, or I could invite a few friends." +
+                "The Sushi place sounds like a good idea, been a while since I last been there. \nNow that I think about it, I could go alone, or I could invite a few friends." +
                 ";Nah I'll go alone, saves me some money anyway." +
                 ";Yeah I'll hang out with the boys, See what they've been up to lately." +
                 ";12" +
                 ";13",
                 // sushi / B: oldfriend | page:7
-                "I Think I'll visit my old friend, see if he's had any luck getting into Psychology School or whatever he calls it. We could catch up on old times while he makes Sushi, or I could invite some friends to finally meet him." +
+                "I Think I'll visit my old friend, see if he's had any luck getting into Psychology School or whatever he calls it. \nWe could catch up on old times while he makes Sushi, or I could invite some friends to finally meet him." +
                 ";I dont want to bother him with a big crowed, It'll just be me and him, with some delicious sushi" +
                 ";Eh, ill bring a few friends along, I'm sure he wont mind." +
                 ";14" +
@@ -255,11 +255,10 @@ namespace LPI_InteractiveFiction_1stPlayable
         {
             ParseStory(story);
 
-            ConsoleKey keyPress;
+            ConsoleKeyInfo keyPress;
 
             for (int i = 0; i < pages.Count;)
             {
-
                 Console.WriteLine(pages[i].plotText);
                 Console.WriteLine();
 
@@ -275,31 +274,32 @@ namespace LPI_InteractiveFiction_1stPlayable
 
                 Console.WriteLine("\n > Awaiting Choice... \n");
 
-                keyPress = Console.ReadKey(true).Key;
+                keyPress = Console.ReadKey(true);
 
-                if (keyPress == ConsoleKey.A)
-                {
-                    for (int j = 0; j < pages.Count; j++)
+                    if (keyPress.Key == ConsoleKey.A)
                     {
-                        if (pages[j] == pages[i].choiceA)
+
+                        for (int j = 0; j < pages.Count; j++)
                         {
-                            i = j;
-                            break;
+                            if (pages[j] == pages[i].choiceA)
+                            {
+                                i = j;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if (keyPress == ConsoleKey.B)
-                {
-                    for (int j = 0; j < pages.Count; j++)
+                    if (keyPress.Key == ConsoleKey.B)
                     {
-                        if (pages[j] == pages[i].choiceB)
+                        for (int j = 0; j < pages.Count; j++)
                         {
-                            i = j;
-                            break;
+                            if (pages[j] == pages[i].choiceB)
+                            {
+                                i = j;
+                                break;
+                            }
                         }
                     }
-                }            
 
                 Console.WriteLine("-------------------------------------------------------------------------------------------\n");
             }
