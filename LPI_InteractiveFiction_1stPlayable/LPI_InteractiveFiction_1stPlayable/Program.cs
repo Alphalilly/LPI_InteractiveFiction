@@ -74,6 +74,8 @@ namespace LPI_InteractiveFiction_1stPlayable
         public string choiceTextA;
         public string choiceTextB;
 
+        public PageNode currentPage;
+
         public PageNode choiceA;
         public PageNode choiceB;
     }
@@ -212,7 +214,7 @@ namespace LPI_InteractiveFiction_1stPlayable
                 pages.Add(i, pageNode);
             }
 
-            //gets the choice numbers / destination pages
+            //gets the choice numbers / destination pages. links all pages togeather in the tree
             for (int j = 0; j < storyData.Length; j++)
             {
                 string pageSource = storyData[j];
