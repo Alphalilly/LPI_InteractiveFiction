@@ -55,6 +55,8 @@ namespace LPI_InteractiveFiction_1stPlayable
             - main menu (required in FINAL project)
      */
 
+    // resorces: https://stackoverflow.com/questions/8946808/can-console-clear-be-used-to-only-clear-a-line-instead-of-whole-console
+
     class Program
     {
         static void Main()
@@ -87,7 +89,7 @@ namespace LPI_InteractiveFiction_1stPlayable
                 "----------------------------------.\n"+ 
                 ";" +
                 ";" +
-                ";1" +
+                ";1" + //goes to page 1
                 ";",
                 //-----------------------------------------------------------------------------------------------
                 //1st | page:1
@@ -191,6 +193,7 @@ namespace LPI_InteractiveFiction_1stPlayable
 
         public static PageNode ParseStory(string[] storyData)
         {
+            //gets the plot text and choices
             for (int i = 0; i < storyData.Length; i++)
             {
                 string pageSource = storyData[i];
@@ -204,6 +207,7 @@ namespace LPI_InteractiveFiction_1stPlayable
                 pages.Add(i, pageNode);
             }
 
+            //gets the choice numbers / destination pages
             for (int j = 0; j < storyData.Length; j++)
             {
                 string pageSource = storyData[j];
@@ -211,33 +215,23 @@ namespace LPI_InteractiveFiction_1stPlayable
                 PageNode pageNode = pages[j];
 
                 //these ignore if there isnt any numbers in the string[] to parse
-                try
-                {
-                    int A = int.Parse(storySplit[3]);
-                    pageNode.choiceA = pages[A];
-                }
-                catch (FormatException)
-                {
-                    pageNode.choiceA = null;
-                }
+                try {int A = int.Parse(storySplit[3]);
+                     pageNode.choiceA = pages[A];}
+                catch (FormatException) {pageNode.choiceA = null;}
 
-                try
-                {
-                    int B = int.Parse(storySplit[4]);
-                    pageNode.choiceB = pages[B];
-                }
-                catch (FormatException)
-                {
-                    pageNode.choiceB = null;
-                }
+                try{int B = int.Parse(storySplit[4]);
+                    pageNode.choiceB = pages[B];}
+                catch (FormatException) {pageNode.choiceB = null;}
             }
 
             return pages[0];
         }
 
-        public static void printStory()
+        public static void printStory() 
         {
             ParseStory(story);
+
+            ConsoleKey keyPress;
 
             foreach (var page in pages)
             {
@@ -245,47 +239,40 @@ namespace LPI_InteractiveFiction_1stPlayable
                 Console.WriteLine();
 
                 //this ignores choice in page 0 (title) entirely. 
-                if (page.Key == 0)
-                {
-                    continue;
-                }
+                if (page.Key == 0) {continue;}
 
                 if (page.Value.choiceA != null)
-                {
                     Console.WriteLine("A:" + page.Value.choiceTextA);
-                }
-
                 if (page.Value.choiceB != null)
-                {
                     Console.WriteLine("B:" + page.Value.choiceTextB);
-                }
 
                 Console.WriteLine("-------------------------------------------------------");
+
+                keyPress = Console.ReadKey(true).Key;
+
+                Console.WriteLine("> Awaiting Choice...");
+
+                //for this to work, id need to make a copy of the dictionary? because the way iom doing it keeps tryng to modify the key whenever i wanna turn the page. 
+
+                int pageA = page.key.choiceA; //reeee i wanna make a new one aaaaaaaa
+
+                if (keyPress == ConsoleKey.A)
+                {
+                    page.key.choiceA
+                }
+
+                if (keyPress == ConsoleKey.B)
+                {
+                    page.key.choiceB
+                }
+
+                //then await input
             }
         }
 
-        public static void input()
-        {
-
-        }
-
-        //public static void printstory()
+        //public static ConsoleKey input()
         //{
 
-
-
-        //    for (int i = 0; i < story.Length; i++)
-        //    {
-
-
-        //        Console.WriteLine(story[i]);
-        //        Console.ReadKey(true);
-        //    }
-
-        //    //while (IsActive == true)
-        //    //{
-
-        //    //}
         //}
     }
 
