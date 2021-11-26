@@ -55,16 +55,17 @@ namespace LPI_InteractiveFiction_1stPlayable
             - main menu (required in FINAL project)
      */
 
-    // resorces: https://stackoverflow.com/questions/8946808/can-console-clear-be-used-to-only-clear-a-line-instead-of-whole-console
-
     class Program
     {
         static void Main()
         {
+            Console.WriteLine("Small Note: I ended up using my story the last time I did this project because I ran out of time. \nI never did submit this assignment last year so I hope that using this story is alright.\n");
+            Console.WriteLine("> Press Any Key to Start... \n");
+            Console.ReadKey(true);
+
             Story.printStory();
 
             Console.ReadKey(true);
-
         }
     }
 
@@ -75,14 +76,10 @@ namespace LPI_InteractiveFiction_1stPlayable
         public string choiceTextB;
 
         public bool isTitle;
+        public bool isEnd;
 
         public PageNode choiceA;
         public PageNode choiceB;
-    }
-
-    public class StoryCopy
-    {
-        
     }
 
     public class Story
@@ -91,13 +88,11 @@ namespace LPI_InteractiveFiction_1stPlayable
         public static string[] story = new string[]
         {
                 //Title Page | page:0
-                "----------------------------------.\n"+
-                "An interesting Dinner \n" +
-                "----------------------------------.\n"+ 
+                "---------------------------------- An interesting Dinner ----------------------------------."+ 
                 ";" +
                 ";" +
-                ";1" + //goes to page 1
-                ";",
+                ";1" +
+                ";1",
                 //-----------------------------------------------------------------------------------------------
                 //1st | page:1
                 " *Your trying to decide to eat Stake or Sushi tonight, both seem appealing but you just cant decide!" +
@@ -208,13 +203,10 @@ namespace LPI_InteractiveFiction_1stPlayable
                 string[] storySplit = pageSource.Split(';');
 
                 if (i == 0)
-                {
                     pageNode.isTitle = true;
-                }
+
                 else
-                {
                     pageNode.isTitle = false;
-                }
 
                 pageNode.plotText = storySplit[0];
                 pageNode.choiceTextA = storySplit[1];
@@ -236,17 +228,30 @@ namespace LPI_InteractiveFiction_1stPlayable
                     int A = int.Parse(storySplit[3]);
                     pageNode.choiceA = pages[A];
                 }
-                catch (FormatException) {pageNode.choiceA = null;}
+                catch (FormatException) 
+                {
+                    pageNode.choiceA = null;
+                    pageNode.isEnd = true;
+                    //putting a Console.WriteLine() here results in something very intresting at the start of the program
+                }
 
-                try{int B = int.Parse(storySplit[4]);
-                    pageNode.choiceB = pages[B];}
-                catch (FormatException) {pageNode.choiceB = null;}
+                try
+                {
+                    int B = int.Parse(storySplit[4]);
+                    pageNode.choiceB = pages[B];
+                }
+                catch (FormatException) 
+                {
+                    pageNode.choiceB = null;
+                    pageNode.isEnd = true;
+                    //putting a Console.WriteLine() here results in something very intresting at the start of the program
+                }
             }
 
             return pages[0];
         }
 
-        public static void printStory() 
+        public static void printStory()
         {
             ParseStory(story);
 
@@ -254,21 +259,21 @@ namespace LPI_InteractiveFiction_1stPlayable
 
             for (int i = 0; i < pages.Count;)
             {
-                keyPress = ConsoleKey.Tab;
 
                 Console.WriteLine(pages[i].plotText);
                 Console.WriteLine();
 
                 if (pages[i].isTitle == true) { i++; continue; }
 
+                if (pages[i].isEnd == true) { break; }
+
                 if (pages[i].choiceTextA != null)
                     Console.WriteLine("A:" + pages[i].choiceTextA);
+
                 if (pages[i].choiceTextB != null)
                     Console.WriteLine("B:" + pages[i].choiceTextB);
 
-                Console.WriteLine("-------------------------------------------------------");
-
-                Console.WriteLine("> Awaiting Choice...");
+                Console.WriteLine("\n > Awaiting Choice... \n");
 
                 keyPress = Console.ReadKey(true).Key;
 
@@ -294,251 +299,10 @@ namespace LPI_InteractiveFiction_1stPlayable
                             break;
                         }
                     }
-                }
+                }            
+
+                Console.WriteLine("-------------------------------------------------------------------------------------------\n");
             }
         }
-
-        //public static ConsoleKey input()
-        //{
-
-        //}
     }
-
-    /* i wanna die
-    using System.Text.RegularExpressions; //Regex https://regex101.com/ should I use this??
-    public class StoryB
-    {
-        static string[,] nostory = new string[,]
-            {
-                //The "Idk what im doing" Diagram:
-
-                //story (class)
-                // > room (method)
-                //  > page (array)
-                //   > paragraph (variable)
-
-                // wait I think this is wrong ^^^ REEEEEEEEEEEEEEE
-
-                {   //page 0 - this techically isnt a page
-                    "This is a title screen at page 0",
-                    ";",
-                    ";",
-                    ";",
-                    ";"
-                },
-                {   //page 1
-                    "Your mom is ded", //paragraph 0
-                    ";oh no", //paragraph 1
-                    ";eh whatever", //paragraph 2
-                    ";2", //paragraph 3
-                    ";3" //paragraph 4
-                },
-                {   //page 2
-                    "thats sad",
-                    ";",
-                    ";",
-                    ";",
-                    ";"
-                },
-                {   //page 3
-                    "lol XD",
-                    ";",
-                    ";",
-                    ";",
-                    ";"
-                },
-            };
-
-        public static void anothertest(int pageNum, int paragraphNum) // y, x
-        {
-            List<string> sortedStory = new List<string>(nostory[pageNum, paragraphNum].Split(';')); //wait... this works?!
-
-            foreach (string paragraph in sortedStory)
-            {
-                Console.WriteLine(paragraph);
-            }
-            Console.ReadKey(true);
-        }
-
-        public static void test()
-        {
-            //STORY ARRAY
-
-            string[,] teststory = new string[,]
-            {
-                {   //page 0
-                    "insert title here", //paragraph 0
-                    ";", //paragraph 1
-                    ";", //paragraph 2
-                    ";", //paragraph 3
-                    ";" //paragraph 4
-                },
-                {   //page 1
-                    "Plot",
-                    ";ChoiceA",
-                    ";ChoiceB",
-                    ";2",
-                    ";3"
-                },
-                {   //page 2
-                    "Plot",
-                    ";ChoiceA",
-                    ";ChoiceB",
-                    ";4",
-                    ";5"
-                },
-                {   //page 3
-                    "Plot",
-                    ";ChoiceA",
-                    ";ChoiceB",
-                    ";6",
-                    ";7"
-                },
-                {   //page 4
-                    "end4",
-                    ";",
-                    ";",
-                    ";",
-                    ";"
-                },
-                {   //page 5
-                    "end5",
-                    ";",
-                    ";",
-                    ";",
-                    ";"
-                },
-                {   //page 6
-                    "end6",
-                    ";",
-                    ";",
-                    ";",
-                    ";"
-                },
-                {   //page 7
-                    "end7",
-                    ";",
-                    ";",
-                    ";",
-                    ";"
-                },
-            };
-
-
-            Console.WriteLine(teststory[6, 0]);
-            Console.ReadKey(true);
-
-            //PRINTING STORY  
-
-
-            while (true) //in a loop (not this one in particular but you get the point
-            {
-                //since its a multidimentional array cant I just tell it to point to a dimention in the array to get a page?
-                //like page 0 is dimention 0 in array
-
-                //string parcing
-
-                int page = 0; //the value will represent the pointer on the Y axis??? (fuck if I know what im talking about)
-                string[] TextSplit = teststory[page, 0].Split(';'); //dont use the 0 here
-
-                //now there is split text 0-4
-
-                //string Paragraph = TextSplit[0];
-                //string ChoiceA = TextSplit[1];
-                //string ChoiceB = TextSplit[2];
-                //string PageA = int.Parse(TextSplit[3]);
-                //string PageB = int.Parse(TextSplit[4]);
-
-
-                //PLAYER INPUT (does it have to be in a loop??)
-
-                //getting key pressed vs getting key press info. ConsoleKey vs ConsoleKeyInfo
-                ConsoleKey Keypressed = Console.ReadKey(true).Key;
-
-            }
-
-
-        }
-    }
-
-    //forget about this Clusterfuck rn
-    struct StoryA //should I make this a class???
-    {
-        //MAKE ROOM METHODS STUPID lel
-
-        //here's my idea:
-
-        //instead of page 1 page 2
-        //have it so its room 1 room 2. (or page inside of room
-        //room objects? each with its own array of strings. that contain the story that happens in that room. and lists of items that can be intracted with to progress through the story[]
-        //and each room contains metaphorical items you could intract with. and the text discribes it.
-        //you can ignore certain items, or choose all of it.
-
-
-        // The begining of the story wont be in a "room" and wont have any choices
-        class RoomExample
-        {
-            string[,] Pages = new string[,]
-            {
-
-            };
-
-            List<string> Items = new List<string>()
-            {
-
-            };
-        }
-
-        class Room1 //ex: this room will contain pages x to pages z
-        {
-            //will have string[] for story, pages, choices, etc
-            //will have list<> of "items". Ties into string[]
-        }
-
-        class Room2
-        {
-            //will have string[] for story, pages, choices, etc
-            //will have list<> of "items". Ties into string[]
-        }
-
-        class Room3
-        {
-            //will have string[] for story, pages, choices, etc
-            //will have list<> of "items". Ties into string[]
-        }
-
-        // this wont be used in the final game, but is there for proof of consept
-        static void CreateNewRoom()
-        {
-            //create a fuction that can create new rooms with Lists and string[]
-            //that means ill need to have an original to create a new copy from
-        }
-
-        // idea for a menu
-         //* //Main Menu
-         //* "Title"
-         //* 
-         //* > New Game
-         //*      "select a new story"
-         //*      > story1
-         //*      > story2
-         //*      > story3
-         //*      > + Add story from file
-         //*      > < back
-         //*      
-         //* > Load
-         //*      "Select a prevous save"
-         //*      > story1
-         //*      > story2
-         //*      > story3
-         //*      > - Delete a Save
-         //*      > < back
-         //*      
-         //* > Quit
-         //*      "Are you sure"
-         //*      > Y/N
-         //* 
-         
-    }
-    */
 }
