@@ -79,7 +79,7 @@ namespace LPI__InteractiveFiction_Final
     {
         static void Main()
         {
-            MainMenu.TestMainMenu();
+            MainMenu.PrintMainMenu();
 
             Console.ReadKey(true);
             //how would I make it so the user cant exit the program just by accedentally pressing a buttton, but also not have the program quit without the need of a ReadKey(true)?
@@ -95,7 +95,7 @@ namespace LPI__InteractiveFiction_Final
             return cursorChar;
         }
 
-        public static void TestMainMenu()
+        public static void PrintMainMenu()
         {
             ConsoleKeyInfo keyPress;
 
@@ -110,22 +110,22 @@ namespace LPI__InteractiveFiction_Final
             {
                 case ConsoleKey.A:
                     Console.Clear();
-                    Story.printStory();
+                    Story.LoadStory(false); // THIS LOADS A NEW GAME
                     break;
 
                 case ConsoleKey.B:
-                    Console.WriteLine("This does nothing yet");
+                    Console.Clear();
+                    Story.LoadStory(true); // THIS LOADS A SAVE ( dosnt do much yet )
                     break;
 
                 case ConsoleKey.C:
                     Console.WriteLine();
-                    //This should automatically exit the program when C is pressed. Stull doesnt do that yet
+                    //This should automatically exit the program when C is pressed. Still doesnt do that yet
                     break;
 
                 default:
-                    //this dosnt do what it should do yet. doing nothing when any other key is pressed
+                    //this dosnt do what it should do yet. doing nothing when any other key is pressed (or trap the player in a loop will the right key is pressed?)
                     break;
-
             }
         }
     }
@@ -145,7 +145,7 @@ namespace LPI__InteractiveFiction_Final
 
     public class Story
     {
-        public static string[] story = File.ReadAllLines(@"StoryData.txt");
+        static string[] story = File.ReadAllLines(@"StoryData.txt");
 
         static Dictionary<int, PageNode> pages = new Dictionary<int, PageNode>();
 
@@ -165,8 +165,11 @@ namespace LPI__InteractiveFiction_Final
                     pageNode.isTitle = false;
 
                 pageNode.plotText = storySplit[0];
+                //Console.WriteLine("plot");
                 pageNode.choiceTextA = storySplit[1];
+                //Console.WriteLine("text1");
                 pageNode.choiceTextB = storySplit[2];
+                //Console.WriteLine("text2");
 
                 pages.Add(i, pageNode);
             }
@@ -183,6 +186,7 @@ namespace LPI__InteractiveFiction_Final
                 {
                     int A = int.Parse(storySplit[3]);
                     pageNode.choiceA = pages[A];
+                    //Console.WriteLine("num1");
                 }
                 catch (FormatException)
                 {
@@ -194,6 +198,7 @@ namespace LPI__InteractiveFiction_Final
                 {
                     int B = int.Parse(storySplit[4]);
                     pageNode.choiceB = pages[B];
+                    //Console.WriteLine("num2");
                 }
                 catch (FormatException)
                 {
@@ -202,13 +207,34 @@ namespace LPI__InteractiveFiction_Final
                 }
             }
 
-            return pages[0];
+            return pages[0]; //look at this later (This determins the start page right? then maybe I can change this...
         }
 
-        public static void printStory()
+        public static void LoadStory(bool isASave) //this should load first, before story print. (the int and field name is temporary, maybe should be a bool?)
         {
             ParseStory(story);
 
+            //the save data should capture the last page the player was on.
+            //therefor when the story is loaded again that number will be assigned to page node, signalling where the story should continue
+
+            //if isASave is true, then take saved number and put it in the Dictionary and have he game continue from there.
+            //if isASave is false, then ignore everything above and go stright to print Story
+
+            switch (isASave)
+            {
+                case true:
+                    // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    break;
+
+                case false:
+                    break;
+            }
+
+            PrintStory();
+        }
+
+        public static void PrintStory()
+        {
             ConsoleKeyInfo keyPress;
 
             for (int i = 0; i < pages.Count;)
@@ -252,6 +278,14 @@ namespace LPI__InteractiveFiction_Final
                                 break;
                             }
                         }
+                        break;
+
+                    //should it create a save file? or write to a save slot? (in this case just one slot
+                    //i may be doing this wrong.because ive got a tree and a Dictionary for this project.maybe I should aproach saving differntly.
+                    //maybe store what page node the user was on when S was pressed ?
+                    case ConsoleKey.S:
+                        Console.WriteLine("Saved");
+                        File.WriteAllLines(@"StorySave.txt", story);
                         break;
 
                     default:
