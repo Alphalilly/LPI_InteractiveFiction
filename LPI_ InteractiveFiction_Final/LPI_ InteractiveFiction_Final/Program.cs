@@ -81,6 +81,7 @@ namespace LPI__InteractiveFiction_Final
         {
             MainMenu.PrintMainMenu();
 
+            Console.WriteLine("Program Has Ended, Press Any Key To Exit");
             Console.ReadKey(true);
             //how would I make it so the user cant exit the program just by accedentally pressing a buttton, but also not have the program quit without the need of a ReadKey(true)?
         }
@@ -119,8 +120,8 @@ namespace LPI__InteractiveFiction_Final
                     break;
 
                 case ConsoleKey.C:
-                    Console.WriteLine();
-                    //This should automatically exit the program when C is pressed. Still doesnt do that yet
+                    Console.WriteLine("\n> Game Exit.");
+                    //This should automatically exit the program when C is pressed. Still doesnt do that properly yet
                     break;
 
                 default:
