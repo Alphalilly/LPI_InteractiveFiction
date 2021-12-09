@@ -73,6 +73,8 @@ namespace LPI__InteractiveFiction_Final
             - ascii art
             - splash screen
             - inventory
+
+            //NOTE TO SELF. a friend's critiqe: https://discord.com/channels/@me/845910623870779402/918353923713159168
     */
 
     class Program
@@ -83,18 +85,12 @@ namespace LPI__InteractiveFiction_Final
 
             Console.WriteLine("Program Has Ended, Press Any Key To Exit");
             Console.ReadKey(true);
-            //how would I make it so the user cant exit the program just by accedentally pressing a buttton, but also not have the program quit without the need of a ReadKey(true)?
         }
     }
 
     public class MainMenu
     {
         static string[] mainMenu = File.ReadAllLines(@"MainMenu.txt");
-
-        static int cursor(char cursorChar = '<') //this does nothing right now, but it could be something cool
-        {
-            return cursorChar;
-        }
 
         public static void PrintMainMenu()
         {
@@ -105,28 +101,35 @@ namespace LPI__InteractiveFiction_Final
                 Console.WriteLine(mainMenu[i]);
             }
 
-            keyPress = Console.ReadKey(true);
+            bool isRightKey = false;
 
-            switch (keyPress.Key)
+            while (isRightKey == false)
             {
-                case ConsoleKey.A:
-                    Console.Clear();
-                    Story.LoadStory(false); // THIS LOADS A NEW GAME
-                    break;
+                keyPress = Console.ReadKey(true);
 
-                case ConsoleKey.B:
-                    Console.Clear();
-                    Story.LoadStory(true); // THIS LOADS A SAVE ( dosnt do much yet )
-                    break;
+                switch (keyPress.Key)
+                {
+                    case ConsoleKey.A:
+                        isRightKey = true;
+                        Console.Clear();
+                        Story.LoadStory(false); // THIS LOADS A NEW GAME
+                        break;
 
-                case ConsoleKey.C:
-                    Console.WriteLine("\n> Game Exit.");
-                    //This should automatically exit the program when C is pressed. Still doesnt do that properly yet
-                    break;
+                    case ConsoleKey.B:
+                        isRightKey = true;
+                        Console.Clear();
+                        Story.LoadStory(true); // THIS LOADS A SAVE 
+                        break;
 
-                default:
-                    //this dosnt do what it should do yet. doing nothing when any other key is pressed (or trap the player in a loop will the right key is pressed?)
-                    break;
+                    case ConsoleKey.C:
+                        isRightKey = true;
+                        Console.WriteLine("\n> Game Exit.");
+                        break;
+
+                    default:
+                        isRightKey = false;
+                        break;
+                }
             }
         }
     }
@@ -160,17 +163,22 @@ namespace LPI__InteractiveFiction_Final
                 string[] storySplit = pageSource.Split(';');
 
                 if (i == 0)
+                {
                     pageNode.isTitle = true;
-
+                }
                 else
+                {
                     pageNode.isTitle = false;
+                }
+
+                if (i == storyData.Length - 1)
+                {
+                    pageNode.isEnd = true;
+                }
 
                 pageNode.plotText = storySplit[0];
-                //Console.WriteLine("plot");
                 pageNode.choiceTextA = storySplit[1];
-                //Console.WriteLine("text1");
                 pageNode.choiceTextB = storySplit[2];
-                //Console.WriteLine("text2");
 
                 pages.Add(i, pageNode);
             }
@@ -187,7 +195,6 @@ namespace LPI__InteractiveFiction_Final
                 {
                     int A = int.Parse(storySplit[3]);
                     pageNode.choiceA = pages[A];
-                    //Console.WriteLine("num1");
                 }
                 catch (FormatException)
                 {
@@ -199,7 +206,6 @@ namespace LPI__InteractiveFiction_Final
                 {
                     int B = int.Parse(storySplit[4]);
                     pageNode.choiceB = pages[B];
-                    //Console.WriteLine("num2");
                 }
                 catch (FormatException)
                 {
@@ -208,90 +214,107 @@ namespace LPI__InteractiveFiction_Final
                 }
             }
 
-            return pages[0]; //look at this later (This determins the start page right? then maybe I can change this...
+            return pages[0];
         }
 
-        public static void LoadStory(bool isASave) //this should load first, before story print. (the int and field name is temporary, maybe should be a bool?)
+        public static void LoadStory(bool isASave)
         {
             ParseStory(story);
 
             //the save data should capture the last page the player was on.
             //therefor when the story is loaded again that number will be assigned to page node, signalling where the story should continue
 
-            //if isASave is true, then take saved number and put it in the Dictionary and have he game continue from there.
-            //if isASave is false, then ignore everything above and go stright to print Story
+            int pageNum = 0;
 
             switch (isASave)
             {
                 case true:
-                    // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    pageNum = int.Parse(File.ReadAllText(@"StorySave.txt"));
+                    PrintStory(pageNum);
                     break;
 
                 case false:
+                    PrintStory(pageNum);
                     break;
             }
-
-            PrintStory();
         }
 
-        public static void PrintStory()
+        public static void PrintStory(int pageNum)
         {
             ConsoleKeyInfo keyPress;
 
-            for (int i = 0; i < pages.Count;)
+            for (int i = pageNum; i < pages.Count;)
             {
+                Console.WriteLine("page " + i);
                 Console.WriteLine(pages[i].plotText);
                 Console.WriteLine();
 
-                if (pages[i].isTitle == true) { i++; continue; }
+                if (pages[i].isTitle == true) 
+                { 
+                    i++; 
+                    continue; 
+                }
 
-                if (pages[i].isEnd == true) { break; }
+                if (pages[i].isEnd == true) 
+                { 
+                    break; 
+                }
 
                 if (pages[i].choiceTextA != null)
+                {
                     Console.WriteLine("A:" + pages[i].choiceTextA);
+                }
 
                 if (pages[i].choiceTextB != null)
+                {
                     Console.WriteLine("B:" + pages[i].choiceTextB);
+                }
 
                 Console.WriteLine("\n > Awaiting Choice... \n");
 
-                keyPress = Console.ReadKey(true);
+                bool isRightKey = false;
+                string currentPage = i.ToString();
 
-                switch (keyPress.Key)
+
+                while (isRightKey == false)
                 {
-                    case ConsoleKey.A:
-                        for (int j = 0; j < pages.Count; j++)
-                        {
-                            if (pages[j] == pages[i].choiceA)
+                    keyPress = Console.ReadKey(true);
+
+                    switch (keyPress.Key)
+                    {
+                        case ConsoleKey.A:
+                            isRightKey = true;
+                            for (int j = 0; j < pages.Count; j++)
                             {
-                                i = j;
-                                break;
+                                if (pages[j] == pages[i].choiceA)
+                                {
+                                    i = j;
+                                    break;
+                                }
                             }
-                        }
-                        break;
+                            break;
 
-                    case ConsoleKey.B:
-                        for (int j = 0; j < pages.Count; j++)
-                        {
-                            if (pages[j] == pages[i].choiceB)
+                        case ConsoleKey.B:
+                            isRightKey = true;
+                            for (int j = 0; j < pages.Count; j++)
                             {
-                                i = j;
-                                break;
+                                if (pages[j] == pages[i].choiceB) 
+                                { 
+                                    i = j; 
+                                    break; 
+                                }
                             }
-                        }
-                        break;
+                            break;
 
-                    //should it create a save file? or write to a save slot? (in this case just one slot
-                    //i may be doing this wrong.because ive got a tree and a Dictionary for this project.maybe I should aproach saving differntly.
-                    //maybe store what page node the user was on when S was pressed ?
-                    case ConsoleKey.S:
-                        Console.WriteLine("Saved");
-                        File.WriteAllLines(@"StorySave.txt", story);
-                        break;
+                        case ConsoleKey.S:
+                            Console.WriteLine("Saved");
+                            File.WriteAllText(@"StorySave.txt", currentPage);
+                            break;
 
-                    default:
-                        //this still does nothing to stop the last page from looping and printing when a differnt key is pressed. 
-                        break;
+                        default:
+                            Console.WriteLine("Wrong Key Press... Try again.");
+                            break;
+                    }
                 }
 
                 Console.WriteLine("-------------------------------------------------------------------------------------------\n");
