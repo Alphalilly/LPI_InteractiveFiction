@@ -83,8 +83,40 @@ namespace LPI__InteractiveFiction_Final
         {
             MainMenu.PrintMainMenu();
 
-            Console.WriteLine("Program Has Ended, Press Any Key To Exit");
+            Colour.SetColour("Blue");
+            Console.WriteLine(" >> Program Has Ended, Press Any Key To Exit");
+            Colour.SetColour("Gray");
             Console.ReadKey(true);
+        }
+    }
+
+    public class Colour
+    {
+        public static void SetColour(string n)
+        {
+            switch (n)
+            {
+                case "Gray":
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    break;
+
+                case "Magenta":
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    break;
+
+                case "Yellow":
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+
+                case "Cyan":
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+
+                case "Blue":
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+
+            }
         }
     }
 
@@ -98,7 +130,9 @@ namespace LPI__InteractiveFiction_Final
 
             for (int i = 0; i < mainMenu.Length; i++)
             {
+                Colour.SetColour("Yellow");
                 Console.WriteLine(mainMenu[i]);
+                Colour.SetColour("Gray");
             }
 
             bool isRightKey = false;
@@ -123,7 +157,9 @@ namespace LPI__InteractiveFiction_Final
 
                     case ConsoleKey.C:
                         isRightKey = true;
+                        Colour.SetColour("Yellow");
                         Console.WriteLine("\n> Game Exit.");
+                        Colour.SetColour("Gray");
                         break;
 
                     default:
@@ -159,6 +195,7 @@ namespace LPI__InteractiveFiction_Final
             for (int i = 0; i < storyData.Length; i++)
             {
                 string pageSource = storyData[i];
+
                 PageNode pageNode = new PageNode();
                 string[] storySplit = pageSource.Split(';');
 
@@ -229,8 +266,17 @@ namespace LPI__InteractiveFiction_Final
             switch (isASave)
             {
                 case true:
-                    pageNum = int.Parse(File.ReadAllText(@"StorySave.txt"));
-                    PrintStory(pageNum);
+                    try
+                    {
+                        pageNum = int.Parse(File.ReadAllText(@"StorySave.txt"));
+                        PrintStory(pageNum);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Colour.SetColour("Blue");
+                        Console.WriteLine(">> ERROR File Not Found.");
+                        Colour.SetColour("Gray");
+                    }
                     break;
 
                 case false:
@@ -245,7 +291,7 @@ namespace LPI__InteractiveFiction_Final
 
             for (int i = pageNum; i < pages.Count;)
             {
-                Console.WriteLine("page " + i);
+                //Console.WriteLine("page " + i);
                 Console.WriteLine(pages[i].plotText);
                 Console.WriteLine();
 
@@ -257,24 +303,29 @@ namespace LPI__InteractiveFiction_Final
 
                 if (pages[i].isEnd == true) 
                 { 
-                    break; 
+                    break;
                 }
 
                 if (pages[i].choiceTextA != null)
                 {
+                    Colour.SetColour("Cyan");
                     Console.WriteLine("A:" + pages[i].choiceTextA);
+                    Colour.SetColour("Gray");
                 }
 
                 if (pages[i].choiceTextB != null)
                 {
+                    Colour.SetColour("Cyan");
                     Console.WriteLine("B:" + pages[i].choiceTextB);
+                    Colour.SetColour("Gray");
                 }
 
+                Colour.SetColour("Magenta");
                 Console.WriteLine("\n > Awaiting Choice... \n");
+                Colour.SetColour("Gray");
 
                 bool isRightKey = false;
                 string currentPage = i.ToString();
-
 
                 while (isRightKey == false)
                 {
@@ -307,8 +358,16 @@ namespace LPI__InteractiveFiction_Final
                             break;
 
                         case ConsoleKey.S:
+                            Colour.SetColour("Magenta");
                             Console.WriteLine("Saved");
+                            Colour.SetColour("Gray");
                             File.WriteAllText(@"StorySave.txt", currentPage);
+                            break;
+
+                        case ConsoleKey.Escape:
+                            isRightKey = true;
+                            Console.WriteLine("Game End");
+                            pages[i].isEnd = true;
                             break;
 
                         default:
@@ -317,7 +376,8 @@ namespace LPI__InteractiveFiction_Final
                     }
                 }
 
-                Console.WriteLine("-------------------------------------------------------------------------------------------\n");
+                Console.WriteLine("¤ ═══════════════════════════════════════════════════════════════════════════════════════ ¤\n");
+                //i get a windows error sound when • is printed to console. what?
             }
         }
     }

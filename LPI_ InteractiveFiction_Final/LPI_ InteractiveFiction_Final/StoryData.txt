@@ -1,4 +1,4 @@
-﻿---------------------------------- An interesting Dinner ----------------------------------.;;;1;1
+﻿¤ ══════════════════════════════ « An interesting Dinner » ══════════════════════════════ ¤;;;1;1
  *Your trying to decide to eat Stake or Sushi tonight, both seem appealing but you just cant decide!;I'll go with the stake, its not expensive and its good.;Sushi time! I've been craving it for a while and I deserve to treat myself every once in a while.;2;3
 Eh I Think I'll go with the Stake, basic and good. Though Should I eat out? or buy what I need and make it myself?;I'll eat out. I was thinking about trying stake from this new place anyway.;I think I'll make the Stake, kinda wanted to try out this new recipe for a while.;4;5
 I'll choose Sushi! I'm feeling experimental today. There's a nearby sushi place that's pretty close, or should I ask an old friend I know and try out his Sushi?;I'll go to that Sushi place, The sweet old lady there always likes to give me extra mints before I leave.;Eh. I'll give an old freind a visit. Maybe catch up and finally try his Sushi recipe.;6;7
